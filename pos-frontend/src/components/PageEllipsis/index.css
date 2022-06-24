@@ -1,0 +1,21 @@
+.pagination-ellipsis{
+    min-width: 50px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s;
+    /* border: 1px solid black; */
+}
+
+.pagination-ellipsis>.pagination-left-icon,
+.pagination-ellipsis>.pagination-right-icon{
+    display: none;
+}
+
+.pagination-ellipsis:hover>.pagination-ellipsis-icon{
+    display: none;
+}
+
+.pagination-ellipsis:hover>.pagination-left-icon,
+.pagination-ellipsis:hover>.pagination-right-icon{
+    display: inline;
+}

@@ -1,0 +1,8 @@
+.category{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.category>div{
+    flex:auto 1 1;
+}

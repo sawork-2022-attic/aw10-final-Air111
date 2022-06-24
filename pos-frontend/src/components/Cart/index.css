@@ -1,0 +1,99 @@
+.items {
+  height: calc(100% - 350px);
+  overflow-y: auto;
+}
+
+.p {
+  margin: 0;
+  line-height: 2em;
+  font-size: 20px;
+}
+
+.p::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.span {
+  padding: 0;
+  display: block;
+}
+
+.bold-span {
+  font-weight: bold;
+}
+
+.left-span {
+  float: left;
+}
+
+.right-span {
+  float: right;
+}
+
+.cancel-btn {
+  display: block;
+  background-color: white;
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  border-radius: 5px;
+  color: rgba(255, 0, 0, 0.8);
+  font-size: 30px;
+  height: 60px;
+  padding: 10px 30px;
+  transition: 0.5s;
+}
+
+.cancel-btn:hover{
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.cancel-btn>svg {
+  position: relative;
+  margin-right: 2px;
+  top: 4px;
+}
+
+.cancel-btn>span {
+  position: relative;
+  top: -3px;
+}
+
+.charge-btn {
+  display: block;
+  background-color: rgb(83, 132, 229);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 30px;
+  height: 60px;
+  padding: 10px 30px;
+  transition: 0.5s;
+}
+
+.charge-btn:hover{
+  background-color: rgb(54, 88, 158);
+}
+
+.charge-btn>svg {
+  position: relative;
+  margin-right: 2px;
+  top: 4px;
+}
+
+.charge-btn>span {
+  position: relative;
+  top: -3px;
+}
+
+.hr-line {
+  border: 1px solid rgba(166, 166, 166, 0.5);
+  margin: 0;
+}
+
+.cancel-charge-btns{
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

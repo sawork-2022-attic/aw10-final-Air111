@@ -1,0 +1,7 @@
+.card {
+  box-sizing: border-box;
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(169, 169, 169, 0.8);
+  margin: 0;
+  overflow-y: auto;
+}

@@ -1,0 +1,49 @@
+.label {
+    /* border: 1px solid black; */
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: rgba(245, 245, 245, 0.5);
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.label>svg>path{
+    transition: 0.5s;
+}
+
+.label>span {
+    font-size: 20px;
+    margin-left: 10px;
+    letter-spacing: 2px;
+    font-weight: bolder;
+    color: #1296db;
+    transition: 0.5s;
+}
+
+.label:hover {
+    background-color: #1296db;
+}
+
+.label:hover>svg>path {
+    fill: white;
+}
+
+.label:hover>span {
+    color: white;
+}
+
+.label-onselected{
+    background-color: #1296db;
+}
+
+.label-onselected>svg>path {
+    fill: white;
+}
+
+.label-onselected>span {
+    color: white;
+}

@@ -1,0 +1,12 @@
+.paper{
+    /* overflow-y: scroll; */
+    display: flex;
+    flex-wrap: wrap;
+}
+.paper>.paper-child{
+    padding: 30px 10px;
+    flex: auto 1 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
