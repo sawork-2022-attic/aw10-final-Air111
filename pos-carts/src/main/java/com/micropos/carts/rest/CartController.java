@@ -34,7 +34,7 @@ public class CartController implements CartsApi {
     }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<CartDto>> createCart(Mono<CartDto> cartDto, ServerWebExchange exchange) {
 
         return cartDto
@@ -48,14 +48,14 @@ public class CartController implements CartsApi {
     }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<Flux<CartDto>>> listCarts(ServerWebExchange exchange) {
         List<CartDto> cartsDto = (List<CartDto>) cartMapper.toCartsDto(cartService.getCarts());
         return Mono.just(new ResponseEntity<>(Flux.fromIterable(cartsDto), HttpStatus.OK));
     }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<CartDto>> showCartById(Integer cartId, ServerWebExchange exchange) {
         Cart cart = this.cartService.getCart(cartId);
         if (cart == null) {
@@ -78,7 +78,7 @@ public class CartController implements CartsApi {
 //    }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<CartDto>> addProductToCart(Integer cartId,
                                                     Mono<ProductDto> productDto,
                                                     ServerWebExchange exchange
@@ -87,13 +87,15 @@ public class CartController implements CartsApi {
         if (cart == null) {
             return Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
-        productDto.subscribe(data -> cartService.add(cartId, cartMapper.toProduct(data)));
-        CartDto cartDto = cartMapper.toCartDto(cart);
-        return Mono.just(new ResponseEntity<>(cartDto, HttpStatus.OK));
+        return productDto
+                .map(cartMapper::toProduct)
+                .map(product -> { cartService.add(cartId, product); return cart; })
+                .map(cartMapper::toCartDto)
+                .map(cartDto -> new ResponseEntity<>(cartDto, HttpStatus.OK));
     }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<Double>> showCartTotal(Integer cartId, ServerWebExchange exchange) {
         Cart cart = cartService.getCart(cartId);
         if (cart == null) {

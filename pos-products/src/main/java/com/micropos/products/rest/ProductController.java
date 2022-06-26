@@ -33,7 +33,7 @@ public class ProductController implements ProductsApi {
     }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<Flux<ProductDto>>> listProducts(String category,
                                                                Integer page,
                                                                ServerWebExchange exchange){
@@ -47,7 +47,7 @@ public class ProductController implements ProductsApi {
     }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<ProductDto>> showProductById(String productId, ServerWebExchange exchange)
     {
         ProductDto productDto = productMapper.toProductDto(this.productService.getProduct(productId));

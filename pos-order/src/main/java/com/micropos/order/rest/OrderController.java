@@ -25,7 +25,7 @@ public class OrderController implements OrderApi {
     }
 
     @Override
-    @CrossOrigin
+    //@CrossOrigin
     public Mono<ResponseEntity<Double>> checkout(Mono<CartDto> cartDto, ServerWebExchange exchange) {
         return cartDto
                 .map(orderService::checkout)

@@ -23,6 +23,13 @@ spring:
           uri: lb://pos-delivery
           predicates:
             - Path=/check/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedHeaders: "*"
+            allowedOrigins: "*"
+            allowedMethods: "*"
+        add-to-simple-url-handler-mapping: true
 
 eureka:
   client:
