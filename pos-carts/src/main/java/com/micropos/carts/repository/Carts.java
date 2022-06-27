@@ -7,9 +7,11 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class Carts{
@@ -17,10 +19,10 @@ public class Carts{
     private final List<Cart> carts = new ArrayList<>();
 
     public Carts() {
-        Product sampleProduct = new Product("1", "Java编程思想", 20.1, "https://www.linuxidc.com/upload/2014_08/140811101915661.jpg");
-        Item sampleItem = new Item(1, 5, sampleProduct);
+        //Product sampleProduct = new Product("1", "Java编程思想", 20.1, "https://www.linuxidc.com/upload/2014_08/140811101915661.jpg");
+        //Item sampleItem = new Item(1, 5, sampleProduct);
         List<Item> items = new ArrayList<>();
-        items.add(sampleItem);
+        //items.add(sampleItem);
         Cart sampleCart = new Cart(1, items);
         carts.add(sampleCart);
     }
@@ -45,8 +47,10 @@ public class Carts{
         for (Cart cart: carts) {
             if (cart.getId() == userId)
                 return cart;
+                //return Mono.just(cart);
         }
         return null;
+        //return Mono.empty();
     }
 
     @Nullable
@@ -56,11 +60,33 @@ public class Carts{
                 return item;
         }
         return null;
+//        return getCart(userId)
+//                .map(Optional::of)
+//                .defaultIfEmpty(Optional.empty())
+//                .flatMap(optionalCart -> {
+//                    if (optionalCart.isEmpty())
+//                        return Mono.empty();
+//                    for (Item item: optionalCart.get().getItems()) {
+//                        if (item.getProduct().getId().equals(productId))
+//                            return Mono.just(item);
+//                    }
+//                    return Mono.empty();
+//                });
     }
 
     @CacheEvict(value = "carts", key = "#userId")
     public boolean addItem(int userId, Item item) {
-        List<Item> itemList = getCart(userId).getItems();
+        Cart cart = getCart(userId);
+//        Cart cart = null;
+//        for (Cart c: carts) {
+//            if (c.getId() == userId) {
+//                cart = c;
+//                break;
+//            }
+//        }
+        if (cart == null)
+            return false;
+        List<Item> itemList = cart.getItems();
         String productId = item.getProduct().getId();
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).getProduct().getId().equals(productId)) {
@@ -86,7 +112,17 @@ public class Carts{
 
     @CacheEvict(value = "carts", key = "#userId")
     public boolean removeProduct(int userId, String productId) {
-        List<Item> itemList = getCart(userId).getItems();
+        Cart cart = getCart(userId);
+//        Cart cart = null;
+//        for (Cart c: carts) {
+//            if (c.getId() == userId) {
+//                cart = c;
+//                break;
+//            }
+//        }
+        if (cart == null)
+            return false;
+        List<Item> itemList = cart.getItems();
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).getProduct().getId().equals(productId)) {
                 itemList.remove(i);
