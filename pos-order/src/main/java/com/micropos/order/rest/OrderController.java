@@ -28,7 +28,7 @@ public class OrderController implements OrderApi {
     //@CrossOrigin
     public Mono<ResponseEntity<Double>> checkout(Mono<CartDto> cartDto, ServerWebExchange exchange) {
         return cartDto
-                .map(orderService::checkout)
+                .flatMap(orderService::checkout)
                 .map(res -> {
                     if (res < 0)
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

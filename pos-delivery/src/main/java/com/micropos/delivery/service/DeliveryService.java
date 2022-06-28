@@ -73,7 +73,7 @@ public class DeliveryService {
     @Bean
     public IntegrationFlow inGate() {
         return IntegrationFlows.from(
-                        Http.inboundGateway("/check/{orderId}")
+                        Http.inboundGateway("/api/check/{orderId}")
                                 .headerExpression("orderId", "#pathVariables.orderId")
                 )
                 .headerFilter("accept-encoding", false)

@@ -13,7 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+//import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class CartService {
     private CartMapper cartMapper;
     private Carts cartRepository;
 
-    private RestTemplate restTemplate;
+    //private RestTemplate restTemplate;
 
     @Autowired
     public void setCartRepository(Carts cartRepository) {
@@ -36,10 +36,10 @@ public class CartService {
         this.cartMapper = cartMapper;
     }
 
-    @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+//    @Autowired
+//    public void setRestTemplate(RestTemplate restTemplate) {
+//        this.restTemplate = restTemplate;
+//    }
 
     public boolean addCart(Cart cart) {
         return cartRepository.addCart(cart);
