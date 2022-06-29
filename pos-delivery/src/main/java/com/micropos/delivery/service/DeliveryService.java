@@ -3,6 +3,8 @@ package com.micropos.delivery.service;
 import com.micropos.delivery.model.Order;
 import com.micropos.dto.ItemDto;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
@@ -17,10 +19,10 @@ import java.util.Map;
 @Service
 public class DeliveryService {
 
-    private class OrderItem {
+    private static class OrderItem {
 
-        private long startTime;
-        private Order order;
+        private final long startTime;
+        private final Order order;
 
         public OrderItem(long startTime, Order order) {
             this.startTime = startTime;
@@ -37,15 +39,24 @@ public class DeliveryService {
             StringBuilder stringBuilder = new StringBuilder();
             for (ItemDto itemDto: cartItems) {
                 if (i < diff) {
-                    stringBuilder.append("DONE:");
+                    stringBuilder.append("DONE:\n");
                 }
                 else
-                    stringBuilder.append("WAITING:");
+                    stringBuilder.append("WAITING:\n");
                 stringBuilder.append(itemDto.toString());
                 stringBuilder.append('\n');
                 i = i + step;
             }
             return stringBuilder.toString();
+        }
+    }
+
+    private static class StatusResponse {
+
+        private String status;
+
+        public StatusResponse(String status) {
+            this.status = status;
         }
     }
 

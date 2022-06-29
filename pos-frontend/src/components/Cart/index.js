@@ -95,9 +95,9 @@ const Cart = ({
           className="charge-btn"
           onClick={() => {
             handleChargeBtn(
-              products.reduce((prev, current) => {
-                return prev + current.amount * current.product.price;
-              }, 0).toFixed(3)
+              // products.reduce((prev, current) => {
+              //   return prev + current.amount * current.product.price;
+              // }, 0).toFixed(3)
             )
           }}
         >

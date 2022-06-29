@@ -22,7 +22,7 @@ spring:
         - id: pos-delivery
           uri: lb://pos-delivery
           predicates:
-            - Path=/check/**
+            - Path=/api/check/**
       globalcors:
         cors-configurations:
           '[/**]':

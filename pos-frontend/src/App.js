@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { WindowDisplay, Book, Cart, Item, Category, Card, Pagination } from "./components";
 import './App.css'
-import { getProducts, getCart,postCart } from "./requests";
+import { getProducts, getCart, postCart, checkoutCart, checkOrder, resetCart } from "./requests";
 
 function App() {
 
@@ -14,6 +14,8 @@ function App() {
 
   const [category, setCategory] = useState("all");
   const [page, setPage] = useState(1);
+
+  const [inputOrderId, setinputOrderId] = useState("");
 
   useEffect(() => {
     // getProducts(category, page).then(({ data, totalpages }) => {
@@ -43,12 +45,39 @@ function App() {
   }
 
   function handleCancelBtn() {
-    console.log("cancel")
+    return ()=>{
+      resetCart().then(res=>{
+        getCart().then(({items}) => {
+          setProductsToCart(items)
+        })
+      })
+      alert("cancel")
+      console.log("cancel")
+    }
   }
 
-  function handleChargeBtn(charge) {
-    alert(charge)
-    console.log("charge")
+  // function handleChargeBtn(charge) {
+  //   alert(charge)
+  //   console.log("charge")
+  // }
+
+  function handleChargeBtn() {
+    return ()=>{
+      getCart().then(cart=>{
+        checkoutCart(cart).then(order=>{
+          alert("total: " + order.total)
+          alert("your order id: " + order.id)
+          console.log("info")
+        })
+      })
+    }
+  }
+
+  function handleCheckBtn() {
+    checkOrder(inputOrderId).then(res=>{
+      alert(res)
+      console.log("check")
+    })
   }
 
   // function handleAddBtn(product) {
@@ -83,6 +112,17 @@ function App() {
   console.log(products);
   return (
     <div className="App">
+      <div className="top">
+        <input type="text" width="80%" placeholder="your order id" value={inputOrderId} onChange={(e) => setinputOrderId(e.target.value)} />
+        <button
+          className="check-btn"
+          onClick={(event) => {
+            handleCheckBtn()
+          }}
+        >
+          <span>check</span>
+        </button>
+      </div>
       <div
         className="left"
       >
@@ -137,8 +177,8 @@ function App() {
         className="right"
       >
         <Cart
-          handleCancelBtn={handleCancelBtn}
-          handleChargeBtn={handleChargeBtn}
+          handleCancelBtn={handleCancelBtn()}
+          handleChargeBtn={handleChargeBtn()}
           products={productsToCart}
         >
           {productsToCart.map(item => {

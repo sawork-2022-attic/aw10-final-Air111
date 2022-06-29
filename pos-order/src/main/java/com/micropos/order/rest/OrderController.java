@@ -2,6 +2,8 @@ package com.micropos.order.rest;
 
 import com.micropos.api.OrderApi;
 import com.micropos.dto.CartDto;
+import com.micropos.dto.OrderDto;
+import com.micropos.order.mapper.OrderMapper;
 import com.micropos.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,21 +21,26 @@ public class OrderController implements OrderApi {
 
     private OrderService orderService;
 
+    private OrderMapper orderMapper;
+
     @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
     }
 
+    @Autowired
+    public void setOrderMapper(OrderMapper orderMapper) {
+        this.orderMapper = orderMapper;
+    }
+
     @Override
     //@CrossOrigin
-    public Mono<ResponseEntity<Double>> checkout(Mono<CartDto> cartDto, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<OrderDto>> checkout(Mono<CartDto> cartDto, ServerWebExchange exchange) {
         return cartDto
                 .flatMap(orderService::checkout)
-                .map(res -> {
-                    if (res < 0)
-                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                    else
-                        return new ResponseEntity<>(res, HttpStatus.OK);
-                });
+                .map(orderMapper::toOrderDto)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+
     }
 }

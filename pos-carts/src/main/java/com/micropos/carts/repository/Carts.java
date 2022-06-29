@@ -54,6 +54,18 @@ public class Carts{
     }
 
     @Nullable
+    @CacheEvict(value = "carts", key = "#userId")
+    public Cart resetCart(int userId) {
+        for (Cart cart: carts) {
+            if (cart.getId() == userId) {
+                cart.setItems(new ArrayList<>());
+                return cart;
+            }
+        }
+        return null;
+    }
+
+    @Nullable
     public Item getItem(int userId, String productId) {
         for (Item item: getCart(userId).getItems()) {
             if (item.getProduct().getId().equals(productId))

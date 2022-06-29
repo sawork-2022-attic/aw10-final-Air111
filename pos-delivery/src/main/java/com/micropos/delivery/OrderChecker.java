@@ -34,7 +34,7 @@ public class OrderChecker implements Consumer<Order> {
     @Override
     public void accept(Order order) {
         service.addOrder(order);
-        log.info("Deliver cart with ID {}", order.getCartDto().getId());
+        log.info("Deliver order with ID {}", order.getId());
         streamBridge.send("item-approved", message(order));
     }
 

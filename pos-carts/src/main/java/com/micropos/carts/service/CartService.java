@@ -54,6 +54,11 @@ public class CartService {
         return cartRepository.getCart(userId);
     }
 
+    @Nullable
+    public Cart resetCart(int userId) {
+        return cartRepository.resetCart(userId);
+    }
+
     public Item getItem(int userId, String productId) {
         return cartRepository.getItem(userId, productId);
     }

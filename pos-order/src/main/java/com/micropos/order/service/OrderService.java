@@ -37,8 +37,6 @@ public class OrderService {
 
     private final ReactiveCircuitBreaker circuitBreaker;
 
-    private static final Logger LOG = LoggerFactory.getLogger(OrderService.class);
-
     private int orderCnt = 0;
 
     public OrderService(ReactiveCircuitBreakerFactory circuitBreakerFactory) {
@@ -56,18 +54,23 @@ public class OrderService {
 //        this.restTemplate = restTemplate;
 //    }
 
-    public Mono<Double> checkout(CartDto cartDto) {
-        streamBridge.send("OrderDeliverer", new Order(orderCnt++, cartDto));
+    public Mono<Order> checkout(CartDto cartDto) {
+
         int cartId = cartDto.getId();
         log.info("Checkout cart with ID {}", cartId);
         return circuitBreaker.run(
                 webClient.get()
                     .uri("/carts/" + cartId + "/total")
                     .retrieve()
-                    .bodyToMono(Double.class),
+                    .bodyToMono(Double.class)
+                    .map(total -> {
+                        Order order = new Order(orderCnt++, total, cartDto);
+                        streamBridge.send("OrderDeliverer", order);
+                        return order;
+                    }),
                     throwable -> {
-                        LOG.warn("Error making request to cart service", throwable);
-                        return Mono.just(-1.0);
+                        log.warn("Error making request to cart service", throwable);
+                        return Mono.empty();
                     });
 //        String url = "http://localhost:8080/api/carts/" +cartId + "/total";
 //        try {

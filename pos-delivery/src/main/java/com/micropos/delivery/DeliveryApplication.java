@@ -14,6 +14,6 @@ public class DeliveryApplication {
         SpringApplication.run(DeliveryApplication.class, args);
     }
 
-//    @Bean
-//    public Consumer<Order> checkOrder() { return new OrderChecker(); }
+    @Bean
+    public Consumer<Order> checkOrder() { return new OrderChecker(); }
 }

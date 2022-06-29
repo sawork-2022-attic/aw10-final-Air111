@@ -9,6 +9,8 @@ import com.micropos.dto.CartDto;
 import com.micropos.carts.mapper.CartMapper;
 import com.micropos.carts.model.Item;
 import com.micropos.dto.ProductDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,8 @@ public class CartController implements CartsApi {
     private final CartMapper cartMapper;
 
     private final CartService cartService;
+
+    private static final Logger log = LoggerFactory.getLogger(CartController.class);
 
     public CartController(CartService cartService, CartMapper cartMapper) {
         this.cartMapper = cartMapper;
@@ -59,6 +63,17 @@ public class CartController implements CartsApi {
     //@CrossOrigin
     public Mono<ResponseEntity<CartDto>> showCartById(Integer cartId, ServerWebExchange exchange) {
         Cart cart = this.cartService.getCart(cartId);
+        if (cart == null) {
+            return Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        }
+        CartDto cartDto = cartMapper.toCartDto(cart);
+        return Mono.just(new ResponseEntity<>(cartDto, HttpStatus.OK));
+    }
+
+    @Override
+    //@CrossOrigin
+    public Mono<ResponseEntity<CartDto>> resetCartById(Integer cartId, ServerWebExchange exchange) {
+        Cart cart = this.cartService.resetCart(cartId);
         if (cart == null) {
             return Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
@@ -103,6 +118,7 @@ public class CartController implements CartsApi {
             return Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
         Double res = cartService.getTotal(cartId);
+        //log.info("Get total res={} with ID {}", res, cartId);
         return Mono.just(new ResponseEntity<>(res, HttpStatus.OK));
     }
 }
