@@ -8,3 +8,11 @@ spring:
     type: ehcache
     ehcache:
       config: classpath:/ehcache.xml
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/amazondb
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver

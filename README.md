@@ -18,3 +18,7 @@ The system should be of a **reactive architecture**, which means it should be
 Please design tests/experiements to demostrate that your system fulfills such requirements as stated in [The Reactive Manifesto](https://www.reactivemanifesto.org)
 
 **Submit your codes/documents/tests/experiements of your system.**
+
+---
+
+由于`meta_AMAZON_FASHION.json`体积过大（184.30 MB），因此没有添加到git仓库中。

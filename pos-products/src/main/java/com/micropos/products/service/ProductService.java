@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    public List<Product> products();
+//    public List<Product> products();
 
     public Flux<Product> getProducts(String category, Integer page);
 

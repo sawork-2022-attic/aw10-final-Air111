@@ -1,8 +1,15 @@
 package com.micropos.products.model;
 
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity
+@NoArgsConstructor
 public class Product implements Serializable {
+    @Id
     private String id;
     private String name;
     private double price;
