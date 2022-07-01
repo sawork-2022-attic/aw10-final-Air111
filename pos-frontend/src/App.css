@@ -15,7 +15,7 @@
 .top{
   box-sizing: border-box;
   width: 59%;
-  height: 10%;
+  height: 5%;
   float: left;
   /* position: relative;
   left: 50%; */
@@ -25,7 +25,7 @@
 .left{
   box-sizing: border-box;
   width: 59%;
-  height: 90%;
+  height: 95%;
   float: left;
   padding: 10px;
 }
